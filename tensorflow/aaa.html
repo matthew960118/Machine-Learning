@@ -1,0 +1,278 @@
+
+<script language=javascript>
+  function gogogoto(url){
+   location.href=url;
+  //if (parent.parent.parent.frames.length > 0)
+     //{alert('A');
+      //parent.parent.parent.window.location.href=url;}
+  //else if (parent.parent.frames.length > 0)
+     //{alert('B');
+      //parent.parent.window.location.href=url;}
+  //else
+     //{alert('C');
+      //parent.window.location.href=url;}
+  }
+  </script>
+  <script language=javascript>top.document.title = '嘉義高商 -- 天方校務系統 ONLine';</script>
+  <html>
+  <head>
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+  <title></title>
+  <style type="text/css">
+  .bodybgcolor
+  {
+    background: #cceeff; /* Old browsers */
+    background: -moz-linear-gradient(top, #cceeff 1%, #cbebff 8%, #ffffff 17%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,#cceeff), color-stop(8%,#cbebff), color-stop(17%,#ffffff)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #cceeff 1%,#cbebff 8%,#ffffff 17%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #cceeff 1%,#cbebff 8%,#ffffff 17%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #cceeff 1%,#cbebff 8%,#ffffff 17%); /* IE10+ */
+    background: linear-gradient(to bottom, #cceeff 1%,#cbebff 8%,#ffffff 17%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cceeff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+  }
+  .textone {
+    height:18pt;
+    width:140pt;
+    background-color:#efefef;
+    color:darkblue;
+    font-size:13pt;
+    font-weight:bold;
+    font-family:Arial;
+    border:1px solid darkblue;
+  }
+  
+  #textmemo{
+    Z-INDEX:4;
+    position:absolute;
+    top:340px; /*firefox*/
+    top:240px\9; /*IE*/
+    right:150px; /*firefox*/
+    right:75px\9; /*IE*/
+  }
+  
+  
+  
+  @media screen and (-webkit-min-device-pixel-ratio:0){ /*chrome and safari*/
+    #textmemo{
+      Z-INDEX:4;
+      position:absolute;
+      top:350px;
+      right:150px;
+    }
+  }
+  
+  #textmemo2{
+    Z-INDEX:4;
+    position:absolute;
+    right:40px;
+    top:350px;
+  }
+  
+  </style>  
+  </head>
+  <body style="margin-top:0;margin-left:0;" class='bodybgcolor' >
+  <script language="vbscript" src="control.vbs"></script>
+  <div id=spansys>
+  
+  <!-- <table border=0 cellpadding=0 cellspacing=0 width="90%" align="center">
+  <tr><td align='center'><br><font style='font-family:標楷體;font-size:24pt;color:darkgreen;'>歡迎使用　校務系統</font></td></tr>
+  </table>
+  <br> -->
+  
+  
+  <table border=0 cellpadding=0 cellspacing=0 width=860px align="center" >
+  
+  <form id=frmlogin name="frmlogin" method="post" action="main.asp">
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <tr><td colspan='5' >
+  <div id=div_logo style="Z-INDEX:2;position:relative;top:5px;" ><font style="font-family:微軟正黑體;font-size:30px;font-weight:bold;color:#5C5C5C;">嘉義高商</font></div>
+  <td></tr>
+  <tr><td  colspan='5'>
+  <div id=div_logo style="Z-INDEX:1;position:absolute;top:10px;right:-15px;" ><img src='image/backgroundDesign.png'></div>
+  <table border=0 cellpadding=5 cellspacing=5 height=480px width="100%" align="center" style="Z-INDEX:2;position:relative;background:url(image/book.png) repeat-x;">
+    <tr>
+      <td colspan='1' rowspan='5' width="50%" >
+      
+        <div id=div_logo3 style="Z-INDEX: 3;position:relative;top:10px;left:50px;" ><img src='image/img1.png'></div>
+      
+      <div id="textmemo2" ><font style="font-family:微軟正黑體;font-size:14px;font-weight:bold;color:#FF0000;">公告事項於網頁下方，欲查看公告，請將捲軸往下拉</font></div>
+      
+        <div id=div_logo4 style="Z-INDEX: 4;position:absolute;top:117px;left:15px;" ><img src='image/student.png'></div>
+      
+      </td>
+      <td colspan='4' >&nbsp</td></tr>
+    <tr>
+      <td align='center' colspan='4' width="50%"><img src='image/passbook.png'></td> 
+    </tr>
+    <tr>
+      <td align='right' style="vertical-align: middle" width="20%"><font style='font-family:微軟正黑體;font-size:20px;font-weight:bold;color:black;'>帳號：</font></td>
+      <td colspan='2'><input type=text class='textone' id='txtid' name='txtid' size=20 maxlength=20 style="background-color:white;" onfocus='this.select();' onblur="txtid_onblur();" ></td>
+    </tr>
+    <tr>
+      <td align='right' style="vertical-align: middle" width="20%"><font style='font-family:微軟正黑體;font-size:20px;font-weight:bold;color:black;'>密碼：</font></td>
+      <td colspan='2'><input type=password autocomplete="off" class='textone' id='txtpwd' name='txtpwd' size=20 maxlength=30 style="background-color:white;"  onfocus='this.select();' onkeydown="checkenter(event)" ></td>
+    </tr> 
+    
+  
+    <input type=hidden name=check value="confirm">
+    </form>
+    <tr>
+      <td colspan='4' align='center' width="17%">
+        <input type="image" id='chk' name='chk' value='確定送出' img src="image/submit.png" style="width:139px;height:40px;" onclick="cmblogin_onclick();" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" name='rst' value='清除重填' img  src="image/clear.png" style="width:139px;height:50px;" onclick='frmlogin.reset();frmlogin.txtid.select();return false;'>
+        <input type="hidden" id="ls_chochk" name="ls_chochk" value="">
+      </td>
+    </tr>
+    <tr><td colspan='5' >&nbsp</td></tr>
+    <tr><td align='center' colspan='5' >
+      <table width="100%" align="center" bgcolor="#404040" cellspacing="3" cellpadding="0" border="0" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0">
+        <tr>
+          <td width="25%" colspan="4" bgcolor="#006400" style="font:12pt;font-family:微軟正黑體;text-align: center;font-weight:bold;color:white;">處室公告</td>
+          <td width="3%" bgcolor="#E8E8E8" >&nbsp;</td>
+          <td colspan="9" bgcolor="#006400" style="font:12pt;font-family:微軟正黑體;text-align: center;font-weight:bold;color:white;">公告事項</td>
+        </tr>
+        <tr>
+          <td colspan="3" ><img src="image/arrow_0049.gif" WIDTH="8" HEIGHT="8"></td>
+          <td bgcolor="#404040"></td>
+          <td width="3%" bgcolor="#E8E8E8"></td>
+          <td></td>
+          <td colspan="8" bgcolor="#404040"></td>  
+        </tr>
+        <tr>
+          <td colspan="4" width="25%" background="image/grid_0010.gif" style="font:9pt;color:#336699;" valign="top">
+  <script language=javascript>
+  function gogogoto(url){
+   location.href=url;
+  //if (parent.parent.parent.frames.length > 0)
+     //{alert('A');
+      //parent.parent.parent.window.location.href=url;}
+  //else if (parent.parent.frames.length > 0)
+     //{alert('B');
+      //parent.parent.window.location.href=url;}
+  //else
+     //{alert('C');
+      //parent.window.location.href=url;}
+  }
+  </script>
+  <br></td>
+          <td width="3%" bgcolor="#E8E8E8">&nbsp;</td>
+          <td colspan="9" background="image/grid_0010.gif" style="font:10pt;font-family:Arial,新細明體,細明體;font-weight:bold;color:#336699;" valign="top">
+  <script language=javascript>
+  function gogogoto(url){
+   location.href=url;
+  //if (parent.parent.parent.frames.length > 0)
+     //{alert('A');
+      //parent.parent.parent.window.location.href=url;}
+  //else if (parent.parent.frames.length > 0)
+     //{alert('B');
+      //parent.parent.window.location.href=url;}
+  //else
+     //{alert('C');
+      //parent.window.location.href=url;}
+  }
+  </script>
+  <br><font color=red size="+2"><br><font color=red size="3">　學生線上社團登錄請由此登入：<a href="https://skyweb.cyvs.cy.edu.tw/emoo/Default.htm" target="_new">學生社團選社</a></font><br><p></p><br><font color=red size="3">　學生線上選課登錄請由此登入：<a href="https://skyweb.cyvs.cy.edu.tw/olcc/default.htm" target="_new">學生Web選課</a></font><br><p align=right><font size=1 color=#f08080>最後更新日期：2022/10/11</font></p></td>
+        </tr>
+      </table>
+    </td></tr>
+  </table>
+  
+  </table></td>
+  </tr>
+  <p align="center"><font size="1" color="lightblue" face="Arial">copyright (c) 2001 skytek all rights reserved<br>著作權所有 天方科技</font></p>
+  <script language="javascript" >
+  
+  //document.oncontextmenu = function() {return false;}
+  
+  lock = function(theEvent) {
+          if (theEvent != null) {
+                  event = theEvent;
+          }
+          // 擋滑鼠右鍵選單事件
+          if (event.type == "contextmenu") {
+              return false;
+          // 擋滑鼠中鍵與右鍵事件
+          } else if (event.type == "mousedown") {
+                  if (event.button == 2 || event.button == 3) {
+                          return false;
+                  }
+          // 擋 IE 按下 F1 鈕時會觸發的 onhelp 事件
+          } else if (event.type == "help") {
+              return false;
+          // 擋特定按鍵
+          } else if (event.type == "keydown") {
+              // 擋 alt 鍵
+              //if (event.altKey || event.ctrlKey) {
+        if (event.altKey ) {
+                      return false;
+              }
+              // 擋 F1 ~ F12 功能鍵，其中此種寫法只能擋 FF 的 F1 鍵，無法擋 IE 的 F1 鍵
+              if (event.keyCode >= 112 && event.keyCode <= 123) {
+                      try {
+                              // IE 要將 keyCode 設為 0 才能真正擋下 F2 ~ F12 功能鍵，
+                              // 但 FF 會丟 Exception，所以用 try-cache 擋住
+                              event.keyCode = 0; 
+                      } catch(e){}
+                      return false;
+              }
+          }
+  }
+  
+  document.onmousedown = lock;
+  document.oncontextmenu = lock;
+  document.onkeydown = lock;
+  window.onhelp = lock;
+  
+  
+  function txtid_onblur(){
+    document.getElementById("txtpwd").value = "";
+  }
+  function cmblogin_onclick(){
+    if(frmlogin.txtid.value == "" ) {
+      alert('帳號不能為空!!');
+      return false;
+    }
+    if(frmlogin.txtpwd.value == "" ){
+      alert('密碼不能為空!!');
+      return false;
+    }
+    if(frmlogin.txtpwd.value.indexOf(" ") >= 0 ){
+      alert('密碼有誤，請重新輸入!!');
+      return false;
+    }
+    re= /select|update|delete|exec|count|’|"|=|'|-|--|:|;|>|<|%/i;
+    if ( re.test(frmlogin.txtid.value) ){
+      alert('帳號密碼有誤，請重新輸入!!');
+      return false;
+    }
+    if ( re.test(frmlogin.txtpwd.value) ){
+      alert('密碼有誤，請重新輸入!!');
+      return false;
+    }
+    frmlogin.submit();
+  }
+  
+  function checkenter(evt){
+    evt = (evt) ? evt : ((window.event) ? window.event : "");
+    var key = evt.keyCode?evt.keyCode:evt.which;
+    if (key == 13){ 
+      if(frmlogin.txtid.value == "" ){
+        alert('帳號不能為空!!');
+        return false;
+      }
+      if(frmlogin.txtpwd.value == "" ){
+        alert('密碼不能為空!!');
+        return false;
+      }
+      frmlogin.submit();
+    }
+  }
+  
+  </script> 
+  </body>
+  </html>
