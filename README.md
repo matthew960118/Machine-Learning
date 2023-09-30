@@ -9,3 +9,8 @@ My machine learning project
 
 正在用ResNet撰寫DQN...
 
+main.py &#x2714;
+
+ResNet.py &#x2716;
+
+RL_brain.py &#x2716;
