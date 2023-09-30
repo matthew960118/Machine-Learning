@@ -1,0 +1,121 @@
+莫凡python
+网易云课堂《深度学习与TensorFlow 2入门实战》 https://www.youtube.com/playlist?list=PLh7DRwYmUgh7swOvZUZ52LMeGDmjFH0nv
+
+
+7/7
+設置開發環境
+	tensorflow
+	Nvidia CUDA
+	cuDNN
+	設定path
+問題:
+	tensorflow 找不到顯卡
+
+7/8
+解決7/7的問題
+發現是tensorflow2.11以後的版本在Windows系統不支援顯卡 https://blog.csdn.net/bragen/article/details/129131278
+	將tensorflow 2.13.x --> tensorflow 2.10.0
+	Nvidia CUDA 12.x --> Nvidia CUDA 11.x
+開始研究...
+
+7/9
+實作梯度下降
+	使用numpy
+	pandas
+	mlp
+正式開始使用tensorflow
+	創建了一個三層的模型來處理mnist手寫數字問題
+問題:
+	還不會使用訓練好的模型
+7/10
+餵給訓練好的模型測試資料
+問題:
+	模型準確度極低
+7/11
+解決7/10的問題
+發現是在一開始宣告mnist數據集的時候不小心把測試用數據跟訓練用數據搞反了
+
+7/12课时54
+了解了全連接層 並且知道了一些神經網路跟deep learning的歷史
+
+7/14 课时73
+推導了各種函數的偏微分
+寫了一個辨識fashion mnist 的ai
+	使用了5層結構
+更加了解各個函數用法
+	Sequential 創建模型 輸入值: [layers1,layers2...]
+	layers.Dense 創建一層 輸入值: output_size, 激活函數
+	Sequential.build 定義輸入值大小
+	optimizers 優化器
+	optimizers.Adam ?? 輸入值: learning_rate
+	optimizers.apply_gradients 更新權重 輸入值: zip(計算出來的梯度, model.trainable_variables )
+
+	Sequential.compile ?? 輸入值: 
+		optimizer=optimizers.Adam(learning_rate=0.0001),
+              	loss=tf.losses.CategoricalCrossentropy(from_logits=True),
+         	metrics=['accuracy']
+	Sequential.fit ??(我覺得是更方便訓練模型的) 輸入值:
+		x, 
+          	y, 
+          	epochs=訓練次數, 
+          	validation_data=(x_test, y_test), 
+          	callbacks=[產生圖表的東西]
+	tf.keras.callbacks.TensorBoard 產生圖表的東西 輸入值: path, histogram_freq=1 ??
+學會了產生圖表 更簡單的訓練模型
+	
+問題:
+	不過還無法理解多輸出感知機的梯度
+	同7/9 還不知道為甚麼把模型存下來再使用精準度極低
+next:
+	應該會開始繼續研究DQN 
+
+#####TensorFlow####結束
+
+7/16 開始研究捲積神經網路
+
+7/17 
+參考了https://zhuanlan.zhihu.com/p/70009692 chatGPT 完成了 My_RL_brain.py 也就是DQN算法
+
+問題:
+	模型精準度極低
+7/18
+增加了TensorBorad 來可視化 發現loss 的曲線跟一般的神經網路完全不一樣 沒那麼平滑
+
+7/19
+神經元個數做調整 沒有明顯區別
+把e_greedy從0慢慢增加 成功次數明顯變多不過也是幾千次才過一次
+
+7/20
+還是一樣找不到問題所在
+不過發現程式碼中計算q_target的action索引有錯 改掉後成功率有些微的提升
+打算看另一部教學影片 https://www.youtube.com/watch?v=vmkRMvhCW5c
+
+8/11
+寫出了一個18 layer的捲積神經網路 15層捲積層 3層全連接層 捲積層一個單元是 (兩層捲積 一層maxpool層)
+用cifar100來測試:
+(每25epoch learningrate*0.1, lr=1e-4 epoch100)
+	在epoch=25時 lr更新 使其在訓練集的acc90%-->99% 但是在測試集沒有太大的改變 一樣是44% 
+	測試集在epoch=18時基本就沒什麼改變了
+	在epoch=91時強制停止 
+		Epoch 91/100
+		782/782 [==============================] - 24s 31ms/step - loss: 0.0046 - accuracy: 0.9991 - val_loss: 7.2878 - val_accuracy: 0.4523 - lr: 1.0000e-05
+	推測可能出現了overfitting
+	可能會試試使用ResNet的方法
+8/??
+在編寫ResNet時發現模型收斂有問題loss會一直上升
+
+8/26
+找到了問題
+	在使用 tf.losses.CategoricalCrossentropy() //交叉商 
+	要傳入參數 from_logits=True //重要!!!!!
+用cifar100來測試:
+(lr=1e-3 epoch10 x*2 - 1)
+	在Epoch6時
+		1563/1563 [==============================] - 74s 47ms/step - loss: 1.0319 - accuracy: 0.6958 - val_loss: 1.9874 - val_accuracy: 0.5008
+		在test data的準確度為最高
+	
+	在Epoch 10
+		1563/1563 [==============================] - 74s 48ms/step - loss: 0.2449 - accuracy: 0.9222 - val_loss: 3.0684 - val_accuracy: 0.4685
+		在train data的準確度為最高 但test data的準確度反而下降了
+
+	推測是overfitting(不清楚)
