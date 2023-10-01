@@ -15,7 +15,7 @@ def update():
             
             RL.store_memory(obs, action, reword, obs_)
             
-            if step>100 and step%10==0:
+            if step>100 and step%20==0:
                 RL.learn()
                 
             obs = obs_
