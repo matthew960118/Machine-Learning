@@ -40,5 +40,7 @@ class RL_brain():
 
         self.memory_counter += 1
     def _build_net_(self):
+        self.eval_net = ResNet.resent18(self.n_actions)
+        self.target_net = ResNet.resent18(self.n_actions)
         
-        eval_net = ResNet.resent18(self.n_actions)
+        
