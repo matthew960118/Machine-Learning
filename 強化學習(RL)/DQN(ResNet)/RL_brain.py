@@ -39,6 +39,6 @@ class RL_brain():
         self.memory[index, :] = transition
 
         self.memory_counter += 1
-    def _build_net_():
+    def _build_net_(self):
         
-        
+        eval_net = ResNet.resent18(self.n_actions)
