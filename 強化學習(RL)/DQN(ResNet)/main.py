@@ -1,4 +1,4 @@
-import RL_brain
+from RL_brain import RL_brain
 import gym
 
 def update():
@@ -7,7 +7,7 @@ def update():
         obs, info = env.reset()
         
         while True:
-            env.rander()
+            env.render()
             
             action = RL.choose_action(obs)
             
@@ -27,5 +27,12 @@ def update():
             
 if __name__ == "__main__":
     env = gym.make('CartPole-v1')
-    RL =RL_brain()
+    
+    n_action = 2
+    
+    RL = RL_brain(
+        n_actions=n_action,
+        n_features=1,
+        learning_rate=0.01,
+        )
     update()

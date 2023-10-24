@@ -32,6 +32,8 @@ class RL_brain():
         self.memory = np.ndarray((self.memory_size,))
         self.learn_step_counter = 0
         
+        self._build_net_()
+        
     def store_memory(self,s,a,r,s_):
         if not hasattr(self, 'memory_counter'):
             self.memory_counter = 0
