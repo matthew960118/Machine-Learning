@@ -27,6 +27,7 @@ class RL_brain():
         self.batch_size = batch_size
         self.epsilon_increment = e_gerrdy_increment
         self.epsilon = 0 if e_gerrdy_increment is not None else self.epsilon_max
+        self.optimizer = tf.optimizers.SGD(learning_rate)
         
         self.memory = np.ndarray((self.memory_size,))
         self.learn_step_counter = 0
@@ -63,9 +64,23 @@ class RL_brain():
         
         batch_state_ = batch_memory[:,-self.n_features-1:-1]
         batch_state = batch_memory[:,:self.n_features]
-        batch_reward = batch_memory[:,self.n_features+1]
+        reward = batch_memory[:,self.n_features+1]
+        action = tf.cast(batch_memory[:,self.n_features],dtype=tf.int32)
+        done = batch_memory[:,-1]
         
-        with tf.GradientTape as tape:
+        with tf.GradientTape() as tape:
             q_eval = self.eval_net(batch_state)
             q_next = self.target_net(batch_state_)
             
+            q_target = tf.identity(q_eval)
+            i = tf.expand_dims(action,axis=1)
+            b = tf.expand_dims(np.arange(self.batch_size),axis=1)
+            i = tf.concat([b,i],axis=1)
+            # tensor_scatter_nd_update
+            update = tf.where(done, reward, tf.stop_gradient(reward + self.gamma * tf.reduce_max(q_next, axis=1)))
+            
+            q_target = tf.tensor_scatter_nd_update(q_target, i, update)
+            
+            loss = tf.losses.MSE(q_eval,q_target)
+        gradients = tape.gradient(loss, self.eval_net.trainable_variables)
+        self.optimizer.apply_gradients(zip(gradients, self.eval_net.trainable_variables))
