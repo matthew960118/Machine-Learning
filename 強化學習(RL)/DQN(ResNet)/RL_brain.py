@@ -84,3 +84,6 @@ class RL_brain():
             loss = tf.losses.MSE(q_eval,q_target)
         gradients = tape.gradient(loss, self.eval_net.trainable_variables)
         self.optimizer.apply_gradients(zip(gradients, self.eval_net.trainable_variables))
+        
+        self.learn_step_counter += 1
+        self.epsilon =self.epsilon + self.epsilon_increment if self.epsilon<self.epsilon_max else self.epsilon_max
