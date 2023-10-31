@@ -1,5 +1,6 @@
 from RL_brain import RL_brain
 import gym
+import ale_py
 
 def update():
     step = 0
@@ -8,10 +9,10 @@ def update():
         
         while True:
             env.render()
-            
+            print(obs)
             action = RL.choose_action(obs)
             
-            obs_, reword, done, info = env.step(action)
+            obs_, reword, done, info, _ = env.step(action)
             
             RL.store_memory(obs, action, reword, obs_)
             
@@ -26,9 +27,9 @@ def update():
             step+=1
             
 if __name__ == "__main__":
-    env = gym.make('CartPole-v1')
+    env = gym.make('Breakout-v4',render_mode='human')
     
-    n_action = 2
+    n_action = 4
     
     RL = RL_brain(
         n_actions=n_action,

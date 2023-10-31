@@ -46,6 +46,7 @@ class ResNet(keras.Model):
       layers.MaxPool2D(pool_size=[2,2],strides=(1,1),padding="same")
     ])
     
+    
     self.layer1 = self.bulid_ResBlock(64,layer_dims[0])
     self.layer2 = self.bulid_ResBlock(128,layer_dims[1],stride=2)
     self.layer3 = self.bulid_ResBlock(256,layer_dims[2],stride=2)
@@ -55,6 +56,7 @@ class ResNet(keras.Model):
     self.fc = layers.Dense(num_classes)
 
   def call(self, inputs, training=None):
+    inputs = tf.cast(inputs, tf.float32)
     x = self.stem(inputs)
     
     x = self.layer1(x)
