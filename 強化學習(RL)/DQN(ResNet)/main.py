@@ -9,14 +9,15 @@ def update():
         
         while True:
             env.render()
-            print(obs)
+
             action = RL.choose_action(obs)
             
             obs_, reword, done, info, _ = env.step(action)
             
-            RL.store_memory(obs, action, reword, obs_)
+            RL.store_memory(obs, action, reword, obs_,done)
             
             if step>100 and step%10==0:
+                print(step)
                 RL.learn()
                 
             obs = obs_

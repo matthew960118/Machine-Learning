@@ -29,20 +29,46 @@ class RL_brain():
         self.epsilon = 0 if e_gerrdy_increment is not None else self.epsilon_max
         self.optimizer = tf.optimizers.SGD(learning_rate)
         
-        self.memory = np.ndarray((self.memory_size,))
+        # self.memory = np.ndarray((self.memory_size,))
+        
+        self.memory_buffer = {
+            'states': np.zeros((memory_size, 210,160,3), dtype=np.uint8),
+            'rewards': np.zeros((memory_size, 1), dtype=np.float32),
+            'actions': np.zeros((memory_size, 1), dtype=np.int32),
+            'next_states': np.zeros((memory_size,210,160,3), dtype=np.uint8),
+            'done':np.ndarray((memory_size),dtype=np.bool_)
+        }
         self.learn_step_counter = 0
         
         self._build_net_()
         
-    def store_memory(self,s,a,r,s_):
+    def store_memory(self,s,a,r,s_,done):
         if not hasattr(self, 'memory_counter'):
             self.memory_counter = 0
         index = self.memory_counter%self.memory_size
-        transition = np.hstack((s,[a, r], s_),)
+        self.memory_buffer['states'][index]=s
+        self.memory_buffer['rewards'][index]=r
+        self.memory_buffer['actions'][index]=a
+        self.memory_buffer['next_states'][index]=s_
+        self.memory_buffer['done'][index]=done
         
-        self.memory[index, :] = transition
-
         self.memory_counter += 1
+    def get_memories(self, indices):
+        s = np.ndarray(len(indices),dtype=np.uint8)
+        a = np.ndarray(len(indices),dtype=np.float32)
+        r = np.ndarray(len(indices),dtype=np.int32)
+        s_ = np.ndarray(len(indices),dtype=np.uint8)
+        done = np.ndarray(len(indices),dtype=np.bool_)
+        
+        for i,index in enumerate(indices):
+            if index < 0 or index >= min(self.memory_counter, self.memory_size):
+                raise ValueError("Invalid memory index")
+            s[i] = self.memory_buffer['states'][index]
+            a[i] = self.memory_buffer['actions'][index]
+            r[i] = self.memory_buffer['rewards'][index]
+            s_[i] = self.memory_buffer['next_states'][index]
+            done[i] = self.memory_buffer['done'][index]
+        return s,r,a,s_,done
     
     def _build_net_(self):
         self.eval_net = ResNet.resent18(self.n_actions)
@@ -62,13 +88,10 @@ class RL_brain():
             w = self.eval_net.get_weights
             self.target_net.set_weights(w)
 
-        batch_memory = np.random.choice(self.memory,self.batch_size,replace=False)
+        batch_index = np.random.choice(self.memory_size,self.batch_size,replace=False)
         
-        batch_state_ = batch_memory[:,-self.n_features-1:-1]
-        batch_state = batch_memory[:,:self.n_features]
-        reward = batch_memory[:,self.n_features+1]
-        action = tf.cast(batch_memory[:,self.n_features],dtype=tf.int32)
-        done = batch_memory[:,-1]
+        batch_state,reward,action,batch_state_,done = self.get_memories(batch_index)
+        
         
         with tf.GradientTape() as tape:
             q_eval = self.eval_net(batch_state)
