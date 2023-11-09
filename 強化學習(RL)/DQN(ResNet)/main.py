@@ -16,7 +16,7 @@ def update():
             
             RL.store_memory(obs, action, reword, obs_,done)
             
-            if step>100 and step%10==0:
+            if step>500 and step%10==0:
                 print(step)
                 RL.learn()
                 

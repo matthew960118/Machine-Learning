@@ -54,19 +54,19 @@ class RL_brain():
         
         self.memory_counter += 1
     def get_memories(self, indices):
-        s = np.ndarray(len(indices),dtype=np.uint8)
+        s = np.ndarray((len(indices),210,160,3),dtype=np.uint8)
         a = np.ndarray(len(indices),dtype=np.float32)
         r = np.ndarray(len(indices),dtype=np.int32)
-        s_ = np.ndarray(len(indices),dtype=np.uint8)
+        s_ = np.ndarray((len(indices),210,160,3),dtype=np.uint8)
         done = np.ndarray(len(indices),dtype=np.bool_)
         
         for i,index in enumerate(indices):
             if index < 0 or index >= min(self.memory_counter, self.memory_size):
                 raise ValueError("Invalid memory index")
-            s[i] = self.memory_buffer['states'][index]
+            s[i] = np.array(self.memory_buffer['states'][index])/255
             a[i] = self.memory_buffer['actions'][index]
             r[i] = self.memory_buffer['rewards'][index]
-            s_[i] = self.memory_buffer['next_states'][index]
+            s_[i] = np.array(self.memory_buffer['next_states'][index])/255
             done[i] = self.memory_buffer['done'][index]
         return s,r,a,s_,done
     
