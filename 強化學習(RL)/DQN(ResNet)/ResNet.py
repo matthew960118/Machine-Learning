@@ -40,17 +40,16 @@ class ResNet(keras.Model):
     super(ResNet, self).__init__()
 
     self.stem = Sequential([
-      layers.Conv2D(64, [3,3],strides=(1,1)),
+      layers.Conv2D(32, [3,3],strides=(1,1)),
       layers.BatchNormalization(),
       layers.Activation('relu'),
       layers.MaxPool2D(pool_size=[2,2],strides=(1,1),padding="same")
     ])
     
-    
-    self.layer1 = self.bulid_ResBlock(64,layer_dims[0])
-    self.layer2 = self.bulid_ResBlock(128,layer_dims[1],stride=2)
-    self.layer3 = self.bulid_ResBlock(256,layer_dims[2],stride=2)
-    self.layer4 = self.bulid_ResBlock(512,layer_dims[3],stride=2)
+    self.layer1 = self.bulid_ResBlock(32,layer_dims[0])
+    self.layer2 = self.bulid_ResBlock(64,layer_dims[1],stride=2)
+    self.layer3 = self.bulid_ResBlock(128,layer_dims[2],stride=2)
+    self.layer4 = self.bulid_ResBlock(256,layer_dims[3],stride=2)
     
     self.avgpool = layers.GlobalAveragePooling2D()
     self.fc = layers.Dense(num_classes)

@@ -3,6 +3,7 @@ from tensorflow import keras
 from keras import layers, Sequential
 import numpy as np
 import ResNet
+import conv
 
 class RL_brain():
     def __init__(
@@ -71,8 +72,11 @@ class RL_brain():
         return s,r,a,s_,done
     
     def _build_net_(self):
-        self.eval_net = ResNet.resent18(self.n_actions)
-        self.target_net = ResNet.resent18(self.n_actions)
+        # self.eval_net = ResNet.resent18(self.n_actions)
+        # self.target_net = ResNet.resent18(self.n_actions)
+        
+        self.eval_net = conv.bulid_net([self.batch_size,210,180,3],nactions=self.n_actions)
+        self.target_net = conv.bulid_net([self.batch_size,210,180,3],nactions=self.n_actions)
     
     def choose_action(self, state):
         state = np.expand_dims(state, axis=0)  # Add an additional dimension to make it (batch_size, n_features)
