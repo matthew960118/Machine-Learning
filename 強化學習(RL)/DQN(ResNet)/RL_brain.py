@@ -75,8 +75,8 @@ class RL_brain():
         # self.eval_net = ResNet.resent18(self.n_actions)
         # self.target_net = ResNet.resent18(self.n_actions)
         
-        self.eval_net = conv.bulid_net([self.batch_size,210,180,3],nactions=self.n_actions)
-        self.target_net = conv.bulid_net([self.batch_size,210,180,3],nactions=self.n_actions)
+        self.eval_net = conv.bulid_net((self.batch_size,210,180,3),nactions=self.n_actions)
+        self.target_net = conv.bulid_net((self.batch_size,210,180,3),nactions=self.n_actions)
     
     def choose_action(self, state):
         state = np.expand_dims(state, axis=0)  # Add an additional dimension to make it (batch_size, n_features)
@@ -89,7 +89,7 @@ class RL_brain():
     
     def learn(self):
         if self.learn_step_counter%self.replace_target_iter:
-            w = self.eval_net.get_weights
+            w = self.eval_net.get_weights()
             self.target_net.set_weights(w)
 
         batch_index = np.random.choice(self.memory_size,self.batch_size,replace=False)

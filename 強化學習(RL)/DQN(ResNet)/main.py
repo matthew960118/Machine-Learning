@@ -10,6 +10,7 @@ def update():
         while True:
             env.render()
 
+            print(obs.shape)
             action = RL.choose_action(obs)
             
             obs_, reword, done, info, _ = env.step(action)

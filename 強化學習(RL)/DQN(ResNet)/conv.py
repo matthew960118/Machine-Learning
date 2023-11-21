@@ -6,35 +6,35 @@ from keras.callbacks import Callback, LearningRateScheduler
 def bulid_net(input_shape,nactions):
 
     conv_layer = [
-        #input shape [b,32,32,3]
+        #input shape [b,220,160,3]
         
         layers.Conv2D(64,kernel_size=[3,3],padding='same',activation=tf.nn.relu),
         layers.Conv2D(64,kernel_size=[3,3],padding='same',activation=tf.nn.relu),
         layers.MaxPool2D(pool_size=[2,2],strides=2,padding="same"),
         
-        #shape [b,16,16,64]
+        #shape [b,110,80,64]
         
         layers.Conv2D(128,kernel_size=[3,3],padding='same',activation=tf.nn.relu),
         layers.Conv2D(128,kernel_size=[3,3],padding='same',activation=tf.nn.relu),
         layers.MaxPool2D(pool_size=[2,2],strides=2,padding="same"),
         
-        #shape [b,8,8,128]
+        #shape [b,55,40,128]
         
         layers.Conv2D(256,kernel_size=[3,3],padding='same',activation=tf.nn.relu),
         layers.Conv2D(256,kernel_size=[3,3],padding='same',activation=tf.nn.relu),
-        layers.MaxPool2D(pool_size=[2,2],strides=2,padding="same"),
+        layers.MaxPool2D(pool_size=[2,2],strides=1,padding="same"),
         
-        #shape [b,4,4,256]
+        #shape [b,,4,256]
         
         layers.Conv2D(512,kernel_size=[3,3],padding='same',activation=tf.nn.relu),
         layers.Conv2D(512,kernel_size=[3,3],padding='same',activation=tf.nn.relu),
-        layers.MaxPool2D(pool_size=[2,2],strides=2,padding="same"),
+        layers.MaxPool2D(pool_size=[2,2],strides=1,padding="same"),
         
         #shape [b,2,2,512]
         
         layers.Conv2D(512,kernel_size=[3,3],padding='same',activation=tf.nn.relu),
         layers.Conv2D(512,kernel_size=[3,3],padding='same',activation=tf.nn.relu),
-        layers.MaxPool2D(pool_size=[2,2],strides=2,padding="same"),
+        layers.MaxPool2D(pool_size=[2,2],strides=1,padding="same"),
         
         #shape [b,1,1,512]
         
