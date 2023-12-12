@@ -9,12 +9,13 @@ def update():
         
         while True:
             env.render()
-
-            print(obs.shape)
+            
+            obs = RL.data_perprocessing(obs)
+            
             action = RL.choose_action(obs)
             
             obs_, reword, done, info, _ = env.step(action)
-            
+            obs_  = RL.data_perprocessing(obs_)
             RL.store_memory(obs, action, reword, obs_,done)
             
             if step>500 and step%10==0:
@@ -29,7 +30,7 @@ def update():
             step+=1
             
 if __name__ == "__main__":
-    env = gym.make('Breakout-v4',render_mode='human')
+    env = gym.make('Breakout-v4',render_mode="ㄇ")
     
     n_action = 4
     

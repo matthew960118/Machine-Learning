@@ -42,7 +42,11 @@ class RL_brain():
         self.learn_step_counter = 0
         
         self._build_net_()
-        
+    
+    def data_perprocessing(self,s):
+        return tf.image.resize(s,[55,37])
+    
+    
     def store_memory(self,s,a,r,s_,done):
         if not hasattr(self, 'memory_counter'):
             self.memory_counter = 0
