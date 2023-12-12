@@ -33,10 +33,10 @@ class RL_brain():
         # self.memory = np.ndarray((self.memory_size,))
         
         self.memory_buffer = {
-            'states': np.zeros((memory_size, 210,160,3), dtype=np.uint8),
+            'states': np.zeros((memory_size, 55,40,3), dtype=np.uint8),
             'rewards': np.zeros((memory_size, 1), dtype=np.float32),
             'actions': np.zeros((memory_size, 1), dtype=np.int32),
-            'next_states': np.zeros((memory_size,210,160,3), dtype=np.uint8),
+            'next_states': np.zeros((memory_size,55,40,3), dtype=np.uint8),
             'done':np.ndarray((memory_size),dtype=np.bool_)
         }
         self.learn_step_counter = 0
@@ -59,10 +59,10 @@ class RL_brain():
         
         self.memory_counter += 1
     def get_memories(self, indices):
-        s = np.ndarray((len(indices),210,160,3),dtype=np.uint8)
-        a = np.ndarray(len(indices),dtype=np.float32)
+        s = np.ndarray((len(indices),55,40,3),dtype=np.uint8)
+        a = np.ndarray(len(indices),dtype=np.int32)
         r = np.ndarray(len(indices),dtype=np.int32)
-        s_ = np.ndarray((len(indices),210,160,3),dtype=np.uint8)
+        s_ = np.ndarray((len(indices),55,40,3),dtype=np.uint8)
         done = np.ndarray(len(indices),dtype=np.bool_)
         
         for i,index in enumerate(indices):
@@ -79,8 +79,8 @@ class RL_brain():
         # self.eval_net = ResNet.resent18(self.n_actions)
         # self.target_net = ResNet.resent18(self.n_actions)
         
-        self.eval_net = conv.bulid_net((self.batch_size,210,180,3),nactions=self.n_actions)
-        self.target_net = conv.bulid_net((self.batch_size,210,180,3),nactions=self.n_actions)
+        self.eval_net = conv.bulid_net((self.batch_size,55,40,3),nactions=self.n_actions)
+        self.target_net = conv.bulid_net((self.batch_size,55,40,3),nactions=self.n_actions)
     
     def choose_action(self, state):
         state = np.expand_dims(state, axis=0)  # Add an additional dimension to make it (batch_size, n_features)
@@ -107,7 +107,7 @@ class RL_brain():
             
             q_target = tf.identity(q_eval)
             i = tf.expand_dims(action,axis=1)
-            b = tf.expand_dims(np.arange(self.batch_size),axis=1)
+            b = tf.expand_dims(tf.cast(np.arange(self.batch_size),tf.int32),axis=1)
             i = tf.concat([b,i],axis=1)
             # tensor_scatter_nd_update
             update = tf.where(done, reward, tf.stop_gradient(reward + self.gamma * tf.reduce_max(q_next, axis=1)))

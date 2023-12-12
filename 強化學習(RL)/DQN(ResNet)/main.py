@@ -14,7 +14,7 @@ def update():
             
             action = RL.choose_action(obs)
             
-            obs_, reword, done, info, _ = env.step(action)
+            obs_, reword, done, info = env.step(action)
             obs_  = RL.data_perprocessing(obs_)
             RL.store_memory(obs, action, reword, obs_,done)
             
@@ -30,7 +30,7 @@ def update():
             step+=1
             
 if __name__ == "__main__":
-    env = gym.make('Breakout-v4',render_mode="ㄇ")
+    env = gym.make('Breakout-v4',render_mode="rgb_array")
     
     n_action = 4
     
