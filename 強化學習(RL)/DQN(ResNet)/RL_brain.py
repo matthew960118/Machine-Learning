@@ -44,7 +44,7 @@ class RL_brain():
         self._build_net_()
     
     def data_perprocessing(self,s):
-        return tf.image.resize(s,[55,37])
+        return tf.image.resize(s,[55,40])
     
     
     def store_memory(self,s,a,r,s_,done):

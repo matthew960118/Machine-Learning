@@ -6,7 +6,7 @@ from keras.callbacks import Callback, LearningRateScheduler
 def bulid_net(input_shape,nactions):
 
     conv_layer = [
-        #input shape [b,220,160,3]
+        #input shape [b,55,40,3]
         
         layers.Conv2D(64,kernel_size=[3,3],padding='same',activation=tf.nn.relu),
         layers.Conv2D(64,kernel_size=[3,3],padding='same',activation=tf.nn.relu),
