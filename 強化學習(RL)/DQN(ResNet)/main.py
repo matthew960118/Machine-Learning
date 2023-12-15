@@ -13,15 +13,16 @@ def update():
             obs = RL.data_perprocessing(obs)
             
             action = RL.choose_action(obs)
-            
-            obs_, reword, done, info = env.step(action)
+
+            obs_, reword, done, info, _ = env.step(action)
             obs_  = RL.data_perprocessing(obs_)
             RL.store_memory(obs, action, reword, obs_,done)
             
             if step>500 and step%10==0:
                 print(step)
                 RL.learn()
-                
+            if step%1000==0:
+                RL.save(name=step%1000)
             obs = obs_
             
             if done:
@@ -30,7 +31,7 @@ def update():
             step+=1
             
 if __name__ == "__main__":
-    env = gym.make('Breakout-v4',render_mode="rgb_array")
+    env = gym.make('Breakout-v4',render_mode="human")
     
     n_action = 4
     

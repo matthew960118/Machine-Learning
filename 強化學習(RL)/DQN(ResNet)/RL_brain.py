@@ -1,9 +1,25 @@
-import tensorflow as tf
+import tensorflow as tf, datetime
 from tensorflow import keras
 from keras import layers, Sequential
+from tensorflow.keras.callbacks import TensorBoard
 import numpy as np
 import ResNet
 import conv
+
+
+class CustomTensorBoard(tf.keras.callbacks.Callback):
+    def __init__(self, log_dir, histogram_freq=0):
+        super().__init__()
+        self.log_dir = log_dir
+        self.histogram_freq = histogram_freq
+        self.file_writer = tf.summary.create_file_writer(self.log_dir)
+
+    def on_epoch_end(self, epoch, logs=None):
+        logs = logs or {}
+        with self.file_writer.as_default():
+            for name, value in logs.items():
+                tf.summary.scalar(name, value, step=epoch)
+            self.file_writer.flush()
 
 class RL_brain():
     def __init__(
@@ -42,10 +58,17 @@ class RL_brain():
         self.learn_step_counter = 0
         
         self._build_net_()
+
+        log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+        self.tensorboard_callback = CustomTensorBoard(log_dir=log_dir, histogram_freq=1)
     
     def data_perprocessing(self,s):
         return tf.image.resize(s,[55,40])
-    
+    def save(self,path="/saved/",name='01'):
+        self.eval_net.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+        # self.eval_net.save(path+name)
+        self.eval_net.save('/content/gdrive/My Drive/my_model')
+        print("success save model")
     
     def store_memory(self,s,a,r,s_,done):
         if not hasattr(self, 'memory_counter'):
@@ -118,5 +141,8 @@ class RL_brain():
         gradients = tape.gradient(loss, self.eval_net.trainable_variables)
         self.optimizer.apply_gradients(zip(gradients, self.eval_net.trainable_variables))
         
+        loss_scalar = tf.reduce_mean(loss)
+
+        self.tensorboard_callback.on_epoch_end(self.learn_step_counter, {'loss': loss_scalar})
         self.learn_step_counter += 1
         self.epsilon =self.epsilon + self.epsilon_increment if self.epsilon<self.epsilon_max else self.epsilon_max
