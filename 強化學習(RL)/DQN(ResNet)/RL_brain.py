@@ -106,7 +106,7 @@ class RL_brain():
         self.target_net = conv.bulid_net((self.batch_size,55,40,3),nactions=self.n_actions)
     
     def choose_action(self, state):
-        state = np.expand_dims(state, axis=0)  # Add an additional dimension to make it (batch_size, n_features)
+        state = np.expand_dims(state, axis=0) 
         if np.random.uniform() < self.epsilon:
             q_values = self.eval_net(state)
             action = tf.argmax(q_values, axis=1).numpy()[0]
