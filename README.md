@@ -11,6 +11,8 @@ My machine learning project
 
 main.py &#x2714;
 
-ResNet.py &#x2716;
+~ResNet.py &#x2716;~
 
-RL_brain.py &#x2716;
+conv.py &#x2714;
+
+RL_brain.py &#x2714;
